@@ -23,51 +23,51 @@ import { IteratorError } from "./IteratorError.ts";
  * ```
  */
 export async function* asyncInterleave<T>(
-	iterables: AsyncIterable<T>[],
+  iterables: AsyncIterable<T>[],
 ): AsyncGenerator<T> {
-	// Get iterators from all iterables
-	const iterators = iterables.map((iterable) =>
-		iterable[Symbol.asyncIterator](),
-	);
+  // Get iterators from all iterables
+  const iterators = iterables.map((iterable) =>
+    iterable[Symbol.asyncIterator](),
+  );
 
-	try {
-		while (true) {
-			const results = await Promise.allSettled(
-				iterators.map((iterator) => iterator.next()),
-			);
+  try {
+    while (true) {
+      const results = await Promise.allSettled(
+        iterators.map((iterator) => iterator.next()),
+      );
 
-			// Check if all iterators are done or failed
-			if (
-				results.every(
-					(result) => result.status === "fulfilled" && result.value.done,
-				)
-			) {
-				break;
-			}
+      // Check if all iterators are done or failed
+      if (
+        results.every(
+          (result) => result.status === "fulfilled" && result.value.done,
+        )
+      ) {
+        break;
+      }
 
-			// Handle results and errors
-			for (let i = 0; i < results.length; i++) {
-				const result = results[i];
-				if (result.status === "fulfilled" && !result.value.done) {
-					yield result.value.value;
-				} else if (result.status === "rejected") {
-					throw new IteratorError(
-						`Unrecoverable error in iterator ${i}`,
-						result.reason,
-						i,
-					);
-				}
-			}
-		}
-	} finally {
-		// Cleanup: return all iterators
-		await Promise.allSettled(
-			iterators.map(async (iterator) => {
-				if (iterator.return) {
-					// return() should be valid
-					await iterator.return(null);
-				}
-			}),
-		);
-	}
+      // Handle results and errors
+      for (let i = 0; i < results.length; i++) {
+        const result = results[i];
+        if (result.status === "fulfilled" && !result.value.done) {
+          yield result.value.value;
+        } else if (result.status === "rejected") {
+          throw new IteratorError(
+            `Unrecoverable error in iterator ${i}`,
+            result.reason,
+            i,
+          );
+        }
+      }
+    }
+  } finally {
+    // Cleanup: return all iterators
+    await Promise.allSettled(
+      iterators.map(async (iterator) => {
+        if (iterator.return) {
+          // return() should be valid
+          await iterator.return(null);
+        }
+      }),
+    );
+  }
 }

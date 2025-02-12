@@ -7,9 +7,7 @@
     "types": "./dist/index.d.ts",
     "default": "./dist/index.js"
   },
-  "keywords": [
-    "itertools"
-  ],
+  "keywords": ["itertools"],
   "author": "Travis Ennis",
   "license": "MIT",
   "scripts": {
