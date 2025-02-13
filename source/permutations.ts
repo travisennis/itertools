@@ -24,7 +24,7 @@ export const permutations = function* <T>(iterable: Iterable<T>, r?: number) {
   while (true) {
     let cleanExit = true;
     for (const i of range(x - 1, -1, -1)) {
-      cycles[i] -= 1;
+      cycles[i] = cycles[i] !== undefined ? cycles[i] - 1 : 0;
       if (cycles[i] === 0) {
         indices = indices
           .slice(0, i)
@@ -35,8 +35,8 @@ export const permutations = function* <T>(iterable: Iterable<T>, r?: number) {
         const j = cycles[i];
 
         const [p, q] = [indices[indices.length - j], indices[i]];
-        indices[i] = p;
-        indices[indices.length - j] = q;
+        indices[i] = p ?? 0;
+        indices[indices.length - j] = q ?? 0;
         yield indices.slice(0, x).map(poolgetter);
         cleanExit = false;
         break;

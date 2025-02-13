@@ -48,9 +48,9 @@ export async function* asyncInterleave<T>(
       // Handle results and errors
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
-        if (result.status === "fulfilled" && !result.value.done) {
+        if (result?.status === "fulfilled" && !result.value.done) {
           yield result.value.value;
-        } else if (result.status === "rejected") {
+        } else if (result?.status === "rejected") {
           throw new IteratorError(
             `Unrecoverable error in iterator ${i}`,
             result.reason,

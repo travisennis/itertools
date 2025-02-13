@@ -9,7 +9,8 @@ export const product = <T>(...iterables: Iterable<T>[]) => {
     if (idx >= len) {
       yield res.slice();
     } else {
-      for (const v of arr[idx]) {
+      const currentArr = arr[idx] ?? [];
+      for (const v of currentArr) {
         res[idx] = v;
         yield* gen(idx + 1);
       }

@@ -14,8 +14,11 @@ export const combinations = <T>(iterable: Iterable<T>, r?: number) => {
       yield result.slice();
     } else {
       for (let i = start; i < poolLength; i++) {
-        result[idx] = pool[i];
-        yield* gen(idx + 1, i + 1);
+        const poolValue = pool[i];
+        if (poolValue) {
+          result[idx] = poolValue;
+          yield* gen(idx + 1, i + 1);
+        }
       }
     }
   }

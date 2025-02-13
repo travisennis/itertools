@@ -6,8 +6,11 @@
 
 export const chain = function* <T>(...iters: Iterable<T>[]): Generator<T> {
   for (let i = 0; i <= iters.length; i++) {
-    for (const x of iters[i]) {
-      yield x;
+    const currentIter = iters[i];
+    if (currentIter) {
+      for (const x of currentIter) {
+        yield x;
+      }
     }
   }
 };

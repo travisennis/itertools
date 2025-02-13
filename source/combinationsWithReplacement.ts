@@ -11,9 +11,12 @@ export const combinationsWithReplacement = <T>(
       yield result.slice();
     } else {
       for (let i = pos; i < n; i++) {
-        result.push(pool[i]);
-        yield* gen(i);
-        result.pop();
+        const poolValue = pool[i];
+        if (poolValue) {
+          result.push(poolValue);
+          yield* gen(i);
+          result.pop();
+        }
       }
     }
   }
