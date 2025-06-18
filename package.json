@@ -7,7 +7,9 @@
     "types": "./dist/index.d.ts",
     "default": "./dist/index.js"
   },
-  "keywords": ["itertools"],
+  "keywords": [
+    "itertools"
+  ],
   "author": "Travis Ennis",
   "license": "MIT",
   "scripts": {
@@ -21,16 +23,15 @@
     "test": "node --import tsx --test test/**/*.test.ts",
     "pretest": "npm run compile",
     "format": "biome format --write",
-    "dev": "tsx ./source/index.ts",
+    "dev": "node --no-warnings ./source/index.ts",
     "oxlint": "npx oxlint@latest --ignore-path .gitignore --deny correctness --deny suspicous --deny pedantic --deny style --node-plugin",
     "knip": "npx knip",
     "check": "npx npm-check-updates  --interactive --format group"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@types/node": "^22.13.2",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "@types/node": "^24.0.3",
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"
