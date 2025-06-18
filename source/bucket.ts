@@ -11,7 +11,7 @@ export const bucket = <T, K>(
     if (!buckets.has(k)) {
       buckets.set(k, []);
     }
-    buckets.get(k)!.push(item);
+    buckets.get(k)?.push(item);
   }
   return buckets;
 };

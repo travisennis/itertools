@@ -4,7 +4,7 @@
 export const validate = function* <T>(
   iterable: Iterable<T>,
   predicate: (x: T) => boolean,
-  errorMessage: string = "Validation failed",
+  errorMessage = "Validation failed",
 ): Generator<T> {
   for (const item of iterable) {
     if (!predicate(item)) {
